@@ -1,0 +1,34 @@
+Consultas en Álgebra Relacional:
+1) select modeloAvion, capacidad, count(capacidad) from vuelo join ruta on vuelo.id_vuelo = ruta.id_vuelo group by capacidad;
+    π modeloavion, capacidad, COUNT (capacidad) γ capacidad, COUNT (capacidad) (vuelo ⋈ vuelo . id_vuelo = ruta . id_vuelo ruta)
+
+2) select pago.rut_cliente, cliente.nombre, sum(pago.valor) from pago join cliente on pago.rut_cliente = cliente.rut group by pago.rut_cliente;
+    π pago . rut_cliente, cliente . nombre, SUM (valor) γ rut_cliente, SUM (valor) (pago ⋈ pago . rut_cliente = cliente . rut cliente)
+
+3) SELECT sum(pago.valor) from pago join cliente on pago.rut_cliente = cliente.rut;
+    π SUM (valor) γ SUM (valor) (pago ⋈ pago . rut_cliente = cliente . rut cliente)
+
+4) SELECT pago.rut_cliente, cliente.nombre, count(pago.valor) from pago join cliente on pago.rut_cliente = cliente.rut group by pago.rut_cliente;
+    π pago . rut_cliente, cliente . nombre, COUNT (valor) γ rut_cliente, COUNT (valor) (pago ⋈ pago . rut_cliente = cliente . rut cliente)
+
+5) SELECT modeloAvion, count(modeloAvion) from vuelo join ruta on vuelo.id_vuelo = ruta.id_vuelo group by modeloAvion;
+    γ modeloavion, COUNT (modeloavion) (vuelo ⋈ vuelo . id_vuelo = ruta . id_vuelo ruta)
+
+6) SELECT paisOrigen, count(paisOrigen) from ruta join vuelo on ruta.id_vuelo = vuelo.id_vuelo group by paisOrigen;
+    γ paisorigen, COUNT (paisorigen) (ruta ⋈ ruta . id_vuelo = vuelo . id_vuelo vuelo)
+
+7) SELECT clase, count(clase) from pasaje join vuelo on pasaje.id_pasaje = vuelo.id_pasaje group by clase;
+    γ clase, COUNT (clase) (pasaje ⋈ pasaje . id_pasaje = vuelo . id_pasaje vuelo)
+
+8) SELECT aeropuertoOrigen, count(aeropuertoOrigen) from ruta join vuelo on ruta.id_vuelo = vuelo.id_vuelo group by aeropuertoOrigen;
+    γ aeropuertoorigen, COUNT (aeropuertoorigen) (ruta ⋈ ruta . id_vuelo = vuelo . id_vuelo vuelo)
+
+9) SELECT ruta.id_vuelo, modeloAvion from vuelo join ruta on vuelo.id_vuelo = ruta.id_vuelo where ruta.id_vuelo in (select id_vuelo from vuelo)
+    π ruta . id_vuelo, modeloavion (vuelo ⋈ vuelo . id_vuelo = ruta . id_vuelo ruta) ruta.id_vuelo in (π id_vuelo vuelo)
+
+10) SELECT vuelo.id_vuelo, paisOrigen, paisDestino, aeropuertoOrigen, aeropuertoDestino from ruta inner join vuelo on ruta.id_vuelo = vuelo.id_vuelo where ruta.id_vuelo in (select id_vuelo from vuelo where paisDestino='Brasil')
+    π vuelo . id_vuelo, paisorigen, paisdestino, aeropuertoorigen, aeropuertodestino (ruta ⋈ ruta . id_vuelo = vuelo .id_vuelo vuelo) ruta.id_vuelo in π id_vuelo σ paisdestino = "Brasil" vuelo
+
+
+11) SELECT pago.rut_cliente, nombre from cliente join pago on cliente.rut = pago.rut_cliente where exists (select rut_cliente from pago where cliente.rut = pago.rut_cliente)
+    π pago . rut_cliente, nombre (cliente ⋈ cliente . rut = pago . rut_cliente pago) π rut_cliente σ cliente .rut = pago . rut_cliente pago
